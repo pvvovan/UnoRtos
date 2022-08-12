@@ -1,4 +1,5 @@
 PROJECT = app
+MCU = atmega328p
 
 C_SRC = \
 Src/main.c \
@@ -19,7 +20,7 @@ CXX = avr-g++
 AS = avr-gcc -x assembler-with-cpp
 OBJCOPY = avr-objcopy
 
-CC_FLAGS = -mmcu=atmega328p -Wall -Wextra ${INCLUDEDIRS}
+CC_FLAGS = -mmcu=${MCU} -Wall -Wextra ${INCLUDEDIRS} -D F_CPU=16000000UL -O2
 
 # Generate dependency information
 CC_FLAGS += -MD -MP -MF"$(@:%.o=%.d)"
@@ -57,14 +58,18 @@ $(OUT)/%.o: %.S Makefile
 	$(AS) -c $(ASFLAGS) $< -o $@
 
 $(OUT)/$(PROJECT).elf: $(OBJ_FILES) Makefile
-	$(CC) $(OBJ_FILES) -o $@
+	$(CC) $(OBJ_FILES) -o $@ ${CC_FLAGS}
 
 $(OUT)/$(PROJECT).bin: $(OUT)/$(PROJECT).elf Makefile
 	$(OBJCOPY) -O binary $< $@
 
 .PHONY: clean
 clean:
-	rm -f $(OUT)/*
+	rm -f -r $(OUT)
+
+
+flash: $(OUT)/$(PROJECT).elf
+	avrdude -p $(MCU) -c usbtiny -U flash:w:$(OUT)/$(PROJECT).elf:e
 
 
 -include $(DEPS)
