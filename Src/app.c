@@ -12,5 +12,5 @@ void app_init(void)
 void app_blink(void)
 {
 	gpio_toggle_pin();
-	_delay_ms(500);
+	_delay_ms(100);
 }
