@@ -11,12 +11,18 @@ FreeRTOS-Kernel/queue.c \
 FreeRTOS-Kernel/list.c \
 FreeRTOS-Kernel/portable/MemMang/heap_1.c
 
-CXX_SRC =
+CXX_SRC = \
+Uart/Src/operator_new.cpp \
+Uart/Src/ring_buffer.cpp \
+Uart/Src/scope_lock.cpp \
+Uart/Src/uart_ll.cpp \
+Uart/Src/uart.cpp
 
 ASM_SRC =
 
 INCLUDEDIRS = \
 -iquote Inc \
+-iquote Uart/Inc \
 -I FreeRTOS-Kernel/include \
 -I FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
 
@@ -28,7 +34,7 @@ AS = avr-gcc -x assembler-with-cpp
 OBJCOPY = avr-objcopy
 SIZE = avr-size
 
-CC_FLAGS = -mmcu=$(MCU) -Wall -Wextra $(INCLUDEDIRS) -D F_CPU=16000000UL -O2 -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
+CC_FLAGS = -mmcu=$(MCU) -Wall -Wextra $(INCLUDEDIRS) -D F_CPU=16000000UL -O2
 
 # Generate dependency information
 CC_FLAGS += -MD -MP -MF"$(@:%.o=%.d)"
@@ -66,7 +72,7 @@ $(OUT)/%.o: %.S Makefile
 	$(AS) -c $(ASFLAGS) $< -o $@
 
 $(OUT)/$(PROJECT).elf: $(OBJ_FILES) Makefile
-	$(CC) $(OBJ_FILES) -o $@ $(CC_FLAGS)
+	$(CXX) $(OBJ_FILES) -o $@ $(CC_FLAGS)
 	$(SIZE) $@
 
 $(OUT)/$(PROJECT).bin: $(OUT)/$(PROJECT).elf Makefile
