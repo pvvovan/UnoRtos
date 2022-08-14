@@ -1,13 +1,13 @@
 #include "app.h"
-#include "FreeRTOS.h"
-#include "croutine.h"
-#include "task.h"
+
+#include <FreeRTOS.h>
+#include <task.h>
 
 
-#define mainCHECK_TASK_PRIORITY			( tskIDLE_PRIORITY + 3 )
+#define TASK_PRIORITY			( tskIDLE_PRIORITY + 3 )
 
 /* The period between executions of the check task. */
-#define mainCHECK_PERIOD				( ( TickType_t ) 500 / portTICK_PERIOD_MS  )
+#define mainCHECK_PERIOD				( ( TickType_t ) 500 / portTICK_PERIOD_MS )
 
 
 static void vErrorChecks( void *pvParameters )
@@ -18,17 +18,26 @@ static void vErrorChecks( void *pvParameters )
 	( void ) pvParameters;
 
 	/* Cycle for ever, delaying then checking all the other tasks are still
-	operating without error. */
+	 * operating without error. */
 	for( ;; )
 	{
 		vTaskDelay( mainCHECK_PERIOD );
 
 		/* Perform a bit of 32bit maths to ensure the registers used by the
-		integer tasks get some exercise. The result here is not important -
-		see the demo application documentation for more info. */
+		 * integer tasks get some exercise. The result here is not important -
+		 * see the demo application documentation for more info. */
 		ulDummyVariable *= 3;
 		app_blink();
-		// prvCheckOtherTasksAreStillRunning();
+	}
+}
+
+static void sendmsg( void *pvParameters )
+{
+	(void)pvParameters;
+
+	for ( ; ; ) {
+		vTaskDelay( mainCHECK_PERIOD / 2 );
+		app_sendmsg();
 	}
 }
 
@@ -37,7 +46,8 @@ int main()
 	app_init();
 
 	/* Create the tasks defined within this file. */
-	xTaskCreate( vErrorChecks, "Check", configMINIMAL_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
+	xTaskCreate(vErrorChecks, "blink", configMINIMAL_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+	xTaskCreate(sendmsg, "send", configMINIMAL_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 
 	/* In this port, to use preemptive scheduler define configUSE_PREEMPTION
 	 * as 1 in portmacro.h.  To use the cooperative scheduler define
@@ -53,5 +63,5 @@ int main()
 
 void vApplicationIdleHook( void )
 {
-	vCoRoutineSchedule();
+	/* Do nothing in idle task */
 }

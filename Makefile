@@ -9,15 +9,14 @@ FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c \
 FreeRTOS-Kernel/tasks.c \
 FreeRTOS-Kernel/queue.c \
 FreeRTOS-Kernel/list.c \
-FreeRTOS-Kernel/croutine.c \
 FreeRTOS-Kernel/portable/MemMang/heap_1.c
 
 CXX_SRC =
 
 ASM_SRC =
 
-INCLUDEDIRS = -iquote . \
--I Inc \
+INCLUDEDIRS = \
+-iquote Inc \
 -I FreeRTOS-Kernel/include \
 -I FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
 
