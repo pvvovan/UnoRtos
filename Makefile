@@ -18,10 +18,12 @@ Uart/Src/scope_lock.cpp \
 Uart/Src/uart_ll.cpp \
 Uart/Src/uart.cpp
 
-ASM_SRC =
+ASM_SRC = \
+Src/protected_io.S
 
 INCLUDEDIRS = \
 -iquote Inc \
+-I Inc \
 -iquote Uart/Inc \
 -I FreeRTOS-Kernel/include \
 -I FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
@@ -41,7 +43,7 @@ CC_FLAGS += -MD -MP -MF"$(@:%.o=%.d)"
 
 CFLAGS = $(CC_FLAGS) -std=gnu99
 CXXFLAGS = $(CC_FLAGS) -std=gnu++17
-ASFLAGS =
+ASFLAGS = $(CC_FLAGS)
 
 OBJ_FILES = $(addprefix $(OUT)/, $(notdir $(ASM_SRC:.S=.o)))
 vpath %.S $(sort $(dir $(ASM_SRC)))
