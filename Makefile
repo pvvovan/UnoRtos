@@ -82,7 +82,7 @@ $(OUT)/$(PROJECT).bin: $(OUT)/$(PROJECT).elf Makefile
 
 .PHONY: clean
 clean:
-	rm -f -r $(OUT)
+	-rm -f -r $(OUT)
 
 
 flash: $(OUT)/$(PROJECT).elf

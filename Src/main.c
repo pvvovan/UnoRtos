@@ -41,6 +41,16 @@ static void sendmsg( void *pvParameters )
 	}
 }
 
+void echo_uart2(void);
+static void task_uart2(void *pvParameters)
+{
+	(void)pvParameters;
+	for ( ; ; ) {
+		vTaskDelay(mainCHECK_PERIOD / 10);
+		echo_uart2();
+	}
+}
+
 int main()
 {
 	app_init();
@@ -48,6 +58,7 @@ int main()
 	/* Create the tasks defined within this file. */
 	xTaskCreate(vErrorChecks, "blink", configMINIMAL_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 	xTaskCreate(sendmsg, "send", configMINIMAL_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+	xTaskCreate(task_uart2, "echo", configMINIMAL_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 
 	/* In this port, to use preemptive scheduler define configUSE_PREEMPTION
 	 * as 1 in portmacro.h.  To use the cooperative scheduler define

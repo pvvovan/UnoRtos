@@ -7,16 +7,17 @@
 #include "ring_buffer.h"
 
 
-class uart {
+class uart final {
       public:
 	enum class peripheral { uart0, uart1, uart2, uart3 };
 	uart(const peripheral unit, const size_t tx_size, const size_t rx_size);
+	~uart();
 	bool init(const uint32_t baud);
-	void start();
 	size_t available();
 	bool print(const char *str);
 	bool write(const uint8_t *data, size_t size);
 	size_t read(uint8_t *data, size_t size);
+	static void start();
 
       private:
 	const peripheral unit_;
