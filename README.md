@@ -1,3 +1,3 @@
-# UnoRtos
+# AvrRtos
 
-Atmega328p freeRTOS demo app
+Atmega2560 freeRTOS demo app

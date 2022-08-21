@@ -6,8 +6,7 @@
 static ring_buffer *s_rx_buf{nullptr};
 static ring_buffer *s_tx_buf{nullptr};
 
-void uart_ll_init(uint32_t baud, ring_buffer *rx_buf, ring_buffer *tx_buf) {
-	uint32_t ubrr = F_CPU / 16 / baud - 1;
+void uart0_ll_init(const uint32_t ubrr, ring_buffer *rx_buf, ring_buffer *tx_buf) {
 	/* Set baud rate */
 	UBRR0H = (uint8_t)(ubrr >> 8);
 	UBRR0L = (uint8_t)ubrr;
@@ -22,7 +21,7 @@ void uart_ll_init(uint32_t baud, ring_buffer *rx_buf, ring_buffer *tx_buf) {
 
 void uart_ll_start() { sei(); }
 
-void uart_ll_transmit(uint8_t data) {
+void uart0_ll_transmit(uint8_t data) {
 	/* Wait for empty transmit buffer */
 	while (!(UCSR0A & (1 << UDRE0)))
 		;
@@ -30,7 +29,7 @@ void uart_ll_transmit(uint8_t data) {
 	UDR0 = data;
 }
 
-ISR(USART_TX_vect) {
+ISR(USART0_TX_vect) {
 	if (s_tx_buf->count() > 0) {
 		uint8_t b;
 		s_tx_buf->read(b);
@@ -38,7 +37,7 @@ ISR(USART_TX_vect) {
 	}
 }
 
-ISR(USART_RX_vect) {
+ISR(USART0_RX_vect) {
 	uint8_t b = UDR0;
 	s_rx_buf->write(b);
 }

@@ -1,5 +1,5 @@
 PROJECT = app
-MCU = atmega328p
+MCU = atmega2560
 
 C_SRC = \
 Src/main.c \

@@ -21,7 +21,8 @@ bool uart::init(uint32_t baud, size_t tx_size, size_t rx_size) {
 	rx_size_ = rx_size;
 	tx_buf = new ring_buffer(tx_size);
 	rx_buf = new ring_buffer(rx_size);
-	::uart_ll_init(baud, rx_buf, tx_buf);
+	const uint32_t ubrr = F_CPU / 16 / baud - 1;
+	::uart0_ll_init(ubrr, rx_buf, tx_buf);
 	initialized_ = true;
 	return true;
 }
@@ -51,7 +52,7 @@ bool uart::write(const uint8_t *data, size_t size) {
 	if (empty && (tx_buf->count() > 0)) {
 		uint8_t b;
 		tx_buf->read(b);
-		::uart_ll_transmit(b);
+		::uart0_ll_transmit(b);
 	}
 	return true;
 }
