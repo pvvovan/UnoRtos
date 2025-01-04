@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
+set(MCU atmega328p)
 project(uno_rtos C CXX ASM)
 
 add_executable(uno
@@ -36,4 +37,10 @@ target_compile_definitions(uno PRIVATE
 set_source_files_properties(
         Src/protected_io.S
         PROPERTIES COMPILE_OPTIONS "-x;assembler-with-cpp"
+)
+
+set_source_files_properties(
+        FreeRTOS-Kernel/tasks.c
+        FreeRTOS-Kernel/portable/MemMang/heap_1.c
+        PROPERTIES COMPILE_OPTIONS "-Wno-pointer-to-int-cast;-Wno-int-to-pointer-cast"
 )
