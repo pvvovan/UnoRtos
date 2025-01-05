@@ -21,3 +21,4 @@ python3 -m venv ~/myvenv1/
 source ./bin/activate
 pip3 install conan
 ```
+Download avr gcc from release tags at https://github.com/ZakKemble/avr-gcc-build
