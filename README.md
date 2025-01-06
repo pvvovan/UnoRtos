@@ -12,6 +12,20 @@
 ./build.sh
 ```
 
+### Clean the build
+```
+source ./Debug/conanbuild.sh
+cmake --build ./Debug/ --target clean
+source ./Debug/deactivate_conanbuild.sh
+```
+
+### Verbose build
+```
+. ./Debug/conanbuild.sh
+cmake --build ./Debug/ -v
+. ./Debug/deactivate_conanbuild.sh
+```
+
 ### Prepare python venv in Ubuntu
 ```
 apt install python3-venv
