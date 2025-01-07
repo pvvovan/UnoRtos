@@ -39,12 +39,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 )
 
 set_source_files_properties(
-        Src/protected_io.S
-        PROPERTIES COMPILE_OPTIONS
-        "-x;assembler-with-cpp"
-)
-
-set_source_files_properties(
         FreeRTOS-Kernel/tasks.c
         FreeRTOS-Kernel/portable/MemMang/heap_1.c
         PROPERTIES COMPILE_OPTIONS

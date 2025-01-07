@@ -13,7 +13,7 @@ set(CMAKE_LINKER_ID GNU)
 set(CMAKE_C_COMPILER ${GCC_PATH}avr-gcc)
 set(CMAKE_CXX_COMPILER ${GCC_PATH}avr-g++)
 set(CMAKE_ASM_COMPILER ${GCC_PATH}avr-gcc)
-set(CMAKE_LINKER_ID ${GCC_PATH}avr-g++)
+set(CMAKE_LINKER ${GCC_PATH}avr-g++)
 
 set(CMAKE_EXECUTABLE_SUFFIX_C .elf)
 set(CMAKE_EXECUTABLE_SUFFIX_CXX .elf)
@@ -21,6 +21,8 @@ set(CMAKE_EXECUTABLE_SUFFIX_ASM .elf)
 
 add_compile_options(
         -mmcu=${MCU}
+        "$<$<COMPILE_LANGUAGE:ASM>:-x;assembler-with-cpp>"
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
 )
 
 add_link_options(
