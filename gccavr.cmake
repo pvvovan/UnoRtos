@@ -21,8 +21,7 @@ set(CMAKE_EXECUTABLE_SUFFIX_ASM .elf)
 
 add_compile_options(
         -mmcu=${MCU}
-        $<$<COMPILE_LANGUAGE:ASM>:-x>
-        $<$<COMPILE_LANGUAGE:ASM>:assembler-with-cpp>
+        "$<$<COMPILE_LANGUAGE:ASM>:-x;assembler-with-cpp>"
         $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
 )
 
