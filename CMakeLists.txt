@@ -14,11 +14,6 @@ add_executable(${PROJECT_NAME}
         Src/main.c
         Src/app.c
         Src/gpio.c
-        FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c
-        FreeRTOS-Kernel/tasks.c
-        FreeRTOS-Kernel/queue.c
-        FreeRTOS-Kernel/list.c
-        FreeRTOS-Kernel/portable/MemMang/heap_1.c
 
         Src/protected_io.S
 )
@@ -26,8 +21,6 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE
         Inc
         Uart/Inc
-        FreeRTOS-Kernel/include
-        FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -41,11 +34,8 @@ set_source_files_properties(
         "-Wno-pointer-to-int-cast;-Wno-int-to-pointer-cast"
 )
 
-set_source_files_properties(
-        FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c
-        PROPERTIES COMPILE_OPTIONS
-        "-Wno-cpp"
-)
+add_subdirectory(Rtos)
+target_link_libraries(${PROJECT_NAME} PRIVATE Rtos)
 
 add_custom_target(flash
         avrdude -p ${MCU} -c usbtiny -U flash:w:${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf:e
