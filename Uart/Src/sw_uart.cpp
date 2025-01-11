@@ -11,7 +11,7 @@ volatile uint8_t *sw_uart::port_{nullptr};
 
 void sw_uart::init(uint32_t baud, volatile uint8_t *ddr, volatile uint8_t *port,
 		   uint8_t pin) {
-	bit_delay_ = ((F_CPU / baud) / 4) - (15 / 4);
+	bit_delay_ = static_cast<uint16_t>(((F_CPU / baud) / 4) - (15 / 4));
 	reg_mask_ = static_cast<uint8_t>(1 << pin);
 	inv_mask_ = static_cast<uint8_t>(~(1 << pin));
 	port_ = port;
@@ -41,7 +41,7 @@ void sw_uart::write(const uint8_t *data, size_t size) {
 			} else {
 				*port_ &= inv_mask_;
 			}
-			b >>= 1;
+			b = static_cast<uint8_t>(b >> 1);
 			_delay_loop_2(bit_delay_);
 		}
 

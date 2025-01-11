@@ -19,5 +19,12 @@ target_sources(${PROJECT_NAME} PRIVATE
 set_source_files_properties(
         FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c
         PROPERTIES COMPILE_OPTIONS
-        "-Wno-cpp"
+        -Wno-conversion
+)
+
+set_source_files_properties(
+        FreeRTOS-Kernel/tasks.c
+        FreeRTOS-Kernel/portable/MemMang/heap_1.c
+        PROPERTIES COMPILE_OPTIONS
+        "-Wno-pointer-to-int-cast;-Wno-int-to-pointer-cast;-Wno-conversion"
 )

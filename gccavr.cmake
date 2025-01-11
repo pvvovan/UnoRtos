@@ -21,6 +21,11 @@ set(CMAKE_EXECUTABLE_SUFFIX_ASM .elf)
 
 add_compile_options(
         -mmcu=${MCU}
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Wconversion
+        -Wsign-conversion
         "$<$<COMPILE_LANGUAGE:ASM>:-x;assembler-with-cpp>"
         $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
 )

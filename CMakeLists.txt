@@ -27,13 +27,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         F_CPU=16000000UL
 )
 
-set_source_files_properties(
-        FreeRTOS-Kernel/tasks.c
-        FreeRTOS-Kernel/portable/MemMang/heap_1.c
-        PROPERTIES COMPILE_OPTIONS
-        "-Wno-pointer-to-int-cast;-Wno-int-to-pointer-cast"
-)
-
 add_subdirectory(Rtos)
 target_link_libraries(${PROJECT_NAME} PRIVATE Rtos)
 
