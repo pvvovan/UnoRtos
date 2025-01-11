@@ -1,34 +1,25 @@
 cmake_minimum_required(VERSION 3.28)
 set(MCU atmega328p)
-project(uno_rtos C CXX ASM)
+project(uno_rtos C ASM)
 
 add_executable(${PROJECT_NAME}
-        Uart/Src/operator_new.cpp
-        Uart/Src/ring_buffer.cpp
-        Uart/Src/scope_lock.cpp
-        Uart/Src/sw_component.cpp
-        Uart/Src/sw_uart.cpp
-        Uart/Src/uart.cpp
-        Uart/Src/uart_ll.cpp
-
         Src/main.c
         Src/app.c
         Src/gpio.c
-
         Src/protected_io.S
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
         Inc
-        Uart/Inc
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE
+add_compile_definitions(
         F_CPU=16000000UL
 )
 
 add_subdirectory(Rtos)
-target_link_libraries(${PROJECT_NAME} PRIVATE Rtos)
+add_subdirectory(Uart)
+target_link_libraries(${PROJECT_NAME} PRIVATE Rtos Uart)
 
 add_custom_target(flash
         avrdude -p ${MCU} -c usbtiny -U flash:w:${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf:e
