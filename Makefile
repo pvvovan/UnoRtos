@@ -1,4 +1,4 @@
-PROJECT = app
+PROJECT = app328p
 MCU = atmega328p
 
 C_SRC = \
@@ -21,7 +21,7 @@ Uart/Src/uart.cpp
 ASM_SRC = \
 Src/protected_io.S
 
-INCLUDEDIRS = \
+INC_DIR = \
 -iquote Inc \
 -I Inc \
 -iquote Uart/Inc \
@@ -37,7 +37,7 @@ AS = avr-gcc -x assembler-with-cpp
 OBJCOPY = avr-objcopy
 SIZE = avr-size
 
-CC_FLAGS = -mmcu=$(MCU) -Wall -Wextra $(INCLUDEDIRS) -D F_CPU=16000000UL -O2
+CC_FLAGS = -mmcu=$(MCU) -Wall -Wextra $(INC_DIR) -D F_CPU=16000000UL -O2 -Wno-cpp -Wsign-conversion
 
 # Generate dependency information
 CC_FLAGS += -MD -MP -MF"$(@:%.o=%.d)"
@@ -72,10 +72,11 @@ $(OUT)/%.o: %.cpp Makefile
 
 $(OUT)/%.o: %.S Makefile
 	@echo AS $<
-	$(AS) -c $(ASFLAGS) $< -o $@
+	@$(AS) -c $(ASFLAGS) $< -o $@
 
 $(OUT)/$(PROJECT).elf: $(OBJ_FILES) Makefile
-	$(CXX) $(OBJ_FILES) -o $@ $(CC_FLAGS)
+	@echo LD $@
+	@$(CXX) $(OBJ_FILES) -o $@ $(CC_FLAGS) -Wl,--print-memory-usage
 	$(SIZE) $@
 
 $(OUT)/$(PROJECT).bin: $(OUT)/$(PROJECT).elf Makefile
