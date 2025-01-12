@@ -5,11 +5,11 @@ C_SRC = \
 Src/main.c \
 Src/app.c \
 Src/gpio.c \
-FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c \
-FreeRTOS-Kernel/tasks.c \
-FreeRTOS-Kernel/queue.c \
-FreeRTOS-Kernel/list.c \
-FreeRTOS-Kernel/portable/MemMang/heap_1.c
+Rtos/FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c \
+Rtos/FreeRTOS-Kernel/tasks.c \
+Rtos/FreeRTOS-Kernel/queue.c \
+Rtos/FreeRTOS-Kernel/list.c \
+Rtos/FreeRTOS-Kernel/portable/MemMang/heap_1.c
 
 CXX_SRC = \
 Uart/Src/operator_new.cpp \
@@ -25,8 +25,9 @@ INCLUDEDIRS = \
 -iquote Inc \
 -I Inc \
 -iquote Uart/Inc \
--I FreeRTOS-Kernel/include \
--I FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
+-I Rtos \
+-I Rtos/FreeRTOS-Kernel/include \
+-I Rtos/FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
 
 OUT = out
 
