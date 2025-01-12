@@ -19,7 +19,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 set_source_files_properties(
         FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c
         PROPERTIES COMPILE_OPTIONS
-        -Wno-conversion
+        "-Wno-conversion;-Wno-pedantic;-Wno-cpp"
 )
 
 set_source_files_properties(
