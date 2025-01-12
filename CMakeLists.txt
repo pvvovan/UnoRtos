@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 set(MCU atmega328p)
-project(uno_rtos C ASM)
+project(uno_rtos C CXX ASM)
 
 add_executable(${PROJECT_NAME}
         Src/main.c
