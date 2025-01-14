@@ -1,12 +1,11 @@
-cmake_minimum_required(VERSION 3.28)
-project(Uart CXX)
-add_library(${PROJECT_NAME} OBJECT)
+add_library(Uart OBJECT)
+add_library(Uno::Uart ALIAS Uart)
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(Uart PUBLIC
         Inc
 )
 
-target_sources(${PROJECT_NAME} PRIVATE
+target_sources(Uart PRIVATE
         Src/operator_new.cpp
         Src/ring_buffer.cpp
         Src/scope_lock.cpp

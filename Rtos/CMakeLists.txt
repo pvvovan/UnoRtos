@@ -1,14 +1,13 @@
-cmake_minimum_required(VERSION 3.28)
-project(Rtos C)
-add_library(${PROJECT_NAME} OBJECT)
+add_library(Rtos OBJECT)
+add_library(Uno::Rtos ALIAS Rtos)
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(Rtos PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         FreeRTOS-Kernel/include
         FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega
 )
 
-target_sources(${PROJECT_NAME} PRIVATE
+target_sources(Rtos PRIVATE
         FreeRTOS-Kernel/portable/ThirdParty/GCC/ATmega/port.c
         FreeRTOS-Kernel/tasks.c
         FreeRTOS-Kernel/queue.c

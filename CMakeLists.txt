@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 set(MCU atmega328p)
+set(CMAKE_BUILD_TYPE Release)
 project(uno_rtos C CXX ASM)
 
 add_executable(${PROJECT_NAME}
@@ -19,7 +20,10 @@ add_compile_definitions(
 
 add_subdirectory(Rtos)
 add_subdirectory(Uart)
-target_link_libraries(${PROJECT_NAME} PRIVATE Rtos Uart)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        Uno::Rtos
+        Uno::Uart
+)
 
 add_custom_target(flash
         avrdude -p ${MCU} -c usbtiny -U flash:w:${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf:e

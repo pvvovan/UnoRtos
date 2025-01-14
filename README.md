@@ -4,7 +4,8 @@
 
 ### Configure project
 ```
-cmake -S ./ -B ./cbuild/ -D CMAKE_TOOLCHAIN_FILE=./gccavr.cmake -D CMAKE_BUILD_TYPE=Release -G Ninja
+cmake -S ./ -B ./cbuild/ -D CMAKE_TOOLCHAIN_FILE=./gccavr.cmake --graphviz=cbuild/graph.dot -G Ninja
+dot -Tsvg ./cbuild/graph.dot -o ./cbuild/graph.svg
 ```
 
 ### Build source code
